@@ -29,6 +29,16 @@ export default new Router({
           name: 'resume',
           component: () => import('@/views/resume/index.vue'),
         },
+        {
+          path: 'job',
+          name: 'job',
+          component: () => import('@/views/job/index.vue'),
+        },
+        {
+          path: 'school',
+          name: 'school',
+          component: () => import('@/views/school/index.vue'),
+        },
       ],
     },
   ],

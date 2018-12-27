@@ -1,6 +1,37 @@
 /*
 */
-
+@charset "utf-8";
+/*竖向居中*/
+.table-cell{
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+}
+.middle{
+  vertical-align:middle;
+}
+/*弹性盒*/
+.flex{
+  display: inline-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+/*弹性盒-子元素可竖向居中*/
+.flex-middle{
+  display :flex;
+  display:-webkit-flex;
+  align-items:center;
+  -webkit-align-items:center;
+  justify-content:center ;
+}
+@mixin back{
+  background: red;
+}
+@mixin ellipsis{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 @mixin border-radius($values) {
   -webkit-border-radius: $values;
   -moz-border-radius: $values;
