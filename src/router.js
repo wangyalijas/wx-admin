@@ -13,11 +13,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: loadView('home'),
-      meta: {
-        title: '',
-      },
+      redirect: '/index',
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/login/TheLogin.vue'),
+    },
+    {
+      path: '/index',
+      component: () => import('@/views/index.vue'),
+      children: [
+        {
+          path: 'resume',
+          name: 'resume',
+          component: () => import('@/views/resume/index.vue'),
+        },
+      ],
     },
   ],
 });

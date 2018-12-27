@@ -1,0 +1,230 @@
+/*
+ * 登录页面
+ * */
+@charset "utf-8";
+
+
+::-ms-clear,
+::-ms-reveal {
+  display:none;
+}
+html,body{
+  height: 100%;
+  min-width: 1280px;
+  width: auto;
+  overflow: hidden;
+}
+body{
+  background:#F2F8FF;
+  font-family: Microsoft YaHei, Open Sans, sans-serif;
+}
+.home-wrap {
+  height: 100%;
+  background-color: #F3F5F7;
+}
+.page-container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 90%;
+}
+#footer {
+  bottom: 10px;
+  width: 460px;
+  height: 36px;
+  margin: 14px auto 0;
+  opacity: 0.3;
+  font-size: 14px;
+  color: #333333;
+  letter-spacing: 0;
+}
+
+
+#loginBox {
+  top: 50%;
+  left: 50%;
+  width: 804px;
+  height: 433px;
+  overflow: hidden;
+  background: #fff;
+  position: absolute;
+  margin-top: -216.5px;
+  margin-left: -402px;
+  box-shadow: 0 0 10px 0 #A5C3E7;
+}
+
+.loginImg {
+  float: left;
+  width: 300px;
+  height: 433px;
+  //background: url("../../images/logo-bg.png") center center no-repeat;
+}
+
+.login {
+  width: 503px;
+  height: 433px;
+  float: right;
+}
+
+.login-inner{
+  padding: 82px 122px 50px;
+}
+
+/*输入框部分*/
+.inputBox {
+  width: 260px;
+}
+
+.account,
+.password {
+  margin-top: 5px;
+  position: relative;
+}
+
+.account span,
+.password span {
+  top: 22px;
+  left: 0px;
+  color: #666;
+  cursor: text;
+  z-index: 1000;
+  font-size: 16px;
+  position: absolute;
+}
+
+.account div,
+.password div {
+  font-size: 12px;
+  color: #4F88FF;
+  visibility: hidden;
+}
+
+.account input,
+.password input {
+  width: 100%;
+  height: 34px;
+  color: #333333;
+  font-size: 14px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  position: relative;
+  border-bottom: 1px solid #77A7DF;
+}
+
+.account i {
+  top: 26px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  z-index: 1000;
+  position: absolute;
+  background-color: #fff;
+}
+
+.lookPassword {
+  top: 28px;
+  right: 3px;
+  width: 24px;
+  height: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  position: absolute;
+  background-color: #fff;
+  //background-image: url("../../images/eyeClosed.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.lookPassword.eyeOpen {
+  //background-image: url("../../images/eyeOpen.png");
+}
+
+/*记住我，忘记密码等*/
+.memory {
+  width: 260px;
+  height: 32px;
+  margin-top: 12px;
+  line-height: 32px;
+  position: relative;
+}
+
+.remember {
+  float: left;
+}
+
+.remember label {
+  top: 2px;
+  left: 8px;
+  color: #333333;
+  font-size: 12px;
+  position: relative;
+}
+
+.forget {
+  float: right;
+  color: #4F88FF;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.help {
+  top: 32px;
+  right: 0px;
+  width: 173px;
+  height: 28px;
+  display: none;
+  color: #FFFFFF;
+  font-size: 12px;
+  line-height: 28px;
+  border-radius: 2px;
+  text-align: center;
+  background: #475460;
+  position: absolute;
+}
+
+.help i {
+  top: -3px;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  display: inline-block;
+  background-color: #475460;
+  transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+/*信息有误提示信息*/
+.misinput {
+  width: 260px;
+  color: #D0021B;
+  visibility: hidden;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/*登录按钮*/
+#entry {
+  width: 260px;
+  height: 40px;
+  color: #FFFFFF;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 40px;
+  margin-top: 17px;
+  text-align: center;
+  background: #4F88FF;
+  border-radius: 2px;
+}
+
+#entry.active {
+  background-color: #4A88D1;
+}
+
+#entry:active {
+  background-color: #475460;
+}
