@@ -1,34 +1,29 @@
-<!--
- * @Module 菜单
- * @Author jinxl
- -->
-
 <template>
-  <div class="header-contianer">
-    <div class="header">
-      <a href="#" class="logo">卫宁招聘管理系统</a>
-      <div class="head-menu">
+  <div class="header">
+    <div class="header-inner">
+      <a class="header-inner--logo" @click="handleRouter('resume')">卫宁招聘管理系统</a>
+      <div class="header-inner__menu">
         <el-menu
           mode="horizontal"
           router
-          :default-active="activeIndex"
-          @select="handleSelect"
+          :default-active="$route.path"
           background-color="#3171B8"
           text-color="#fff"
           active-text-color="#fff">
-          <el-menu-item index="1" :route="{ name:'resume' }">简历管理</el-menu-item>
-          <el-menu-item index="2" :route="{ name:'job' }">招聘管理</el-menu-item>
-          <el-menu-item index="3" :route="{ name:'school' }">校招管理</el-menu-item>
-          <el-menu-item index="4" :route="{ name:'bloc' }">集团信息管理</el-menu-item>
+          <el-menu-item
+            :index="`/index/${item.route}`"
+            :key="index"
+            :route="{ name: item.route }"
+            v-for="(item, index) in menuData">{{item.name}}</el-menu-item>
         </el-menu>
       </div>
-      <div class="head-user">
-        <span>卫宁健康，您好</span>
-        <div @click="viewMessage"><i class="iconfont icon-tozh"></i><span>99+</span></div>
+      <div class="header-inner__user">
+        <span class="header-inner__user--title">卫宁健康，您好</span>
+        <div @click="viewMessageFunc" class="header-inner__user--msg">
+          <i class="el-icon-bell"></i>
+          <span>99+</span></div>
       </div>
-      <div @click="loginOut"
-           class="header-info">[退出]
-      </div>
+      <div @click="loginOutFunc" class="header-inner--out">[退出]</div>
     </div>
   </div>
 </template>
@@ -37,92 +32,103 @@
 export default {
   data() {
     return {
-      activeIndex: sessionStorage.getItem('activeIndex') || '1',
+      menuData: [{
+        name: '简历管理',
+        route: 'resume',
+        index: '0',
+      }, {
+        name: '招聘管理',
+        route: 'job',
+        index: '1',
+      }, {
+        name: '校招管理',
+        route: 'school',
+        index: '2',
+      }, {
+        name: '集团信息管理',
+        route: 'company',
+        index: '3',
+      }],
     };
   },
+  computed: {
+  },
+  watch: {},
+  filters: {
+  },
+  components: {},
+  created() {
+    this.$nextTick(() => {
+    });
+  },
   methods: {
-    // 设置当前菜单
-    handleSelect(key, keyPath) {
-      this.activeIndex = key.toString();
-      sessionStorage.setItem('activeIndex', this.activeIndex);
-    },
     // 退出
-    loginOut() {
+    loginOutFunc() {
       this.$router.push({ name: 'login' });
-      sessionStorage.removeItem('login');
     },
     // 查看消息
-    viewMessage() {
+    viewMessageFunc() {
       this.$message({
         message: '恭喜你，这是99+条成功消息',
         type: 'success',
       });
     },
   },
-  computed: {
-    reversedMessage() {
-      return '';
-    },
-  },
-  watch: {
-    message() {
-    },
-  },
-  filters: {
-    subString() {
-    },
-  },
-  components: {},
 };
 </script>
 <!--CSS-PAGE-->
-<style lang="scss" scoped>
-  .header-contianer{
+<style lang="scss">
+  .header{
     background: #3270B8;
-    .header{
-      display :flex;
-      max-width: 1366px;
+    .header-inner{
+      display: flex;
+      width: 1366px;
       height :50px;
       margin :0 auto;
-      padding-left: 10px;
       font-size: 16px;
-      /deep/ .el-menu-item{
-        width: 116px;
-        height :50px;
-        margin-left: 40px;
-        line-height: 50px;
-        text-align: center;
-      }
-      /deep/ .el-submenu__title{
-        height :50px;
-        line-height :50px;
-      }
-      /deep/ .el-submenu__title{
-        i{
-          color :#fff;
-        }
-      }
-      a{
-        margin-right: 100px;
+      @include m(logo){
+        margin: 0 180px 0 20px;
+        background: url("../assets/images/logo.png") no-repeat left;
+        padding-left: 35px;
         color: #fff;
         line-height :50px;
         text-decoration :none;
+        cursor: pointer;
       }
-      .head-menu{
+      @include e(menu){
         flex: 1;
         overflow: hidden;
+        .el-menu--horizontal{
+          .el-menu-item{
+            width: 116px;
+            height :50px;
+            margin-right: 70px;
+            line-height: 50px;
+            text-align: center;
+            &.is-active{
+              background: #78AAE8 !important;
+              border-bottom: none;
+            }
+            &:hover{
+              background: #78AAE8 !important;
+            }
+            &:last-child{
+              margin-right: 0;
+            }
+          }
+        }
       }
-      .head-user{
+      @include e(user){
         position: relative;
         margin-right: 70px;
         padding-right: 20px;
         line-height: 50px;
         color: #fff;
         font-size: 13px;
-        span{
+        @include m(title){
           margin-right:10px ;
         }
-        div{
+        @include m(msg){
           position: relative;
           display: inline-block;
           padding: 0 5px;
@@ -139,11 +145,15 @@ export default {
             background: #de5252;
             transform: scale(0.8);
           }
+          .el-icon-bell{
+            font-size: 20px;
+          }
         }
       }
-      .header-info{
-        padding-right: 10px;
+      @include m(out){
+        margin-right: 20px;
         color: #fff;
+        font-size: 13px;
         cursor: pointer;
         line-height: 50px;
       }

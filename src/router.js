@@ -18,26 +18,26 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/login/TheLogin.vue'),
+      component: loadView('login/TheLogin'),
     },
     {
       path: '/index',
-      component: () => import('@/views/index.vue'),
+      component: loadView('index'),
       children: [
         {
           path: 'resume',
           name: 'resume',
-          component: () => import('@/views/resume/index.vue'),
+          component: loadView('resume/index'),
         },
         {
           path: 'job',
           name: 'job',
-          component: () => import('@/views/job/index.vue'),
+          component: loadView('job/index'),
         },
         {
           path: 'school',
           name: 'school',
-          component: () => import('@/views/school/index.vue'),
+          component: loadView('school/index'),
         },
       ],
     },

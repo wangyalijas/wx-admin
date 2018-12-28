@@ -45,13 +45,11 @@ export default {
     };
   },
   created() {
-    this.init();
+    this.$nextTick(() => {
+      this.getResumeTable();
+    });
   },
   methods: {
-    // 初始化
-    init() {
-      this.getResumeTable();
-    },
     // 获取简历管理数据
     getResumeTable() {
       this.$http.get(this.$http.reTable)
@@ -64,12 +62,11 @@ export default {
           this.loading = false;
         });
     },
-    handleTab(tab, event) {
+    handleTab(tab) {
       console.log(tab);
     },
     // 条件搜索
     handleSearch() {
-      if (!this.search) { return false; }
       this.$notify({
         title: '成功',
         message: `搜索关键字：${this.search}`,
@@ -90,7 +87,9 @@ export default {
     subString() {
     },
   },
-  components: { ResumeTable },
+  components: {
+    ResumeTable,
+  },
 };
 </script>
 <!--CSS-PAGE-->
