@@ -8,9 +8,9 @@
             <router-view/>
           </div>
         </div>
-        <the-footer></the-footer>
       </el-scrollbar>
     </div>
+    <the-footer></the-footer>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ export default {
     height: 100%;
     .wrap-inner{
       margin-top: 60px;
-      height: calc(100% - 50px);
+      height: calc(100% - 100px);
       width: 100%;
       @include e(page){
         width: 1366px;

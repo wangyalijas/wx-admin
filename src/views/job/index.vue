@@ -9,8 +9,10 @@
         v-model="search">
         <i slot="suffix" class="el-input__icon el-icon-search"></i>
       </el-input>
-      <el-button icon="el-icon-plus"
-                 round size="small">发布新职位
+      <el-button
+      class="small-button"
+      icon="el-icon-plus"
+      round size="small">发布新职位
       </el-button>
     </div>
     <!--简历收件箱-->
@@ -102,6 +104,9 @@ export default {
   .resume{
     position: relative;
     height: 100%;
+    .small-button {
+      padding: 0px 15px;
+    }
     .resume-search{
       position: absolute;
       display: flex;
