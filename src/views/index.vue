@@ -2,13 +2,15 @@
   <div class="wrap">
     <the-header></the-header>
     <div class="wrap-inner">
-      <div class="wrap-inner__page">
-        <div class="wrap-inner__page--content">
-          <router-view/>
+      <el-scrollbar style="height: 100%">
+        <div class="wrap-inner__page">
+          <div class="wrap-inner__page--content">
+            <router-view/>
+          </div>
         </div>
-      </div>
+        <the-footer></the-footer>
+      </el-scrollbar>
     </div>
-    <the-footer></the-footer>
   </div>
 </template>
 
@@ -25,20 +27,28 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .el-scrollbar{
+    .el-scrollbar__wrap{
+      overflow-x: hidden;
+      .el-scrollbar__view{
+        height: 100%;
+      }
+    }
+  }
   .wrap{
     position: relative;
     width: 100%;
+    height: 100%;
     .wrap-inner{
       margin-top: 60px;
-      height: 100%;
+      height: calc(100% - 50px);
       width: 100%;
       @include e(page){
         width: 1366px;
         margin: 0 auto;
         @include m(content){
-          flex: 1;
-          margin: 10px;
+          margin: 0 10px 10px 10px;
           background: #fff;
         }
       }

@@ -55,7 +55,8 @@
             <i :class=" [scope.row.enclosure? 'icon-fuji':'','iconfont']"></i>
             <div>
               <el-tooltip effect="dark" content="收藏" placement="bottom">
-                <i @click.prevent="handleCollect(scope.row)" class="iconfont icon-shou"></i>
+                <i @click.prevent="handleCollect(scope.row)"
+                   class="iconfont icon-shou"></i>
               </el-tooltip>
               <el-tooltip effect="dark" content="下载" placement="bottom">
                 <i class="iconfont icon-xiza"></i>
@@ -63,7 +64,8 @@
               <el-tooltip effect="dark" content="转发" placement="bottom">
                 <i class="iconfont icon-zhfa"></i>
               </el-tooltip>
-              <el-tooltip v-show="tabIndex === 'second'" effect="dark" content="调配" placement="bottom">
+              <el-tooltip v-show="tabIndex === 'second'"
+                          effect="dark" content="调配" placement="bottom">
                 <i class="iconfont icon-tipe"></i>
               </el-tooltip>
               <el-tooltip effect="dark" content="删除" placement="bottom">
@@ -81,7 +83,11 @@
         prop="state"
         label="状态"
         width="100"
-        :filters="[{ text: '已读', value: '0' }, { text: '未读', value: '1' }, { text: '已转', value: '2' }]"
+        :filters="[
+            { text: '已读', value: '0' },
+            { text: '未读', value: '1' },
+            { text: '已转', value: '2' }
+        ]"
         :filter-method="filterTag"
         filter-placement="bottom-end">
         <template slot-scope="scope">
@@ -244,7 +250,7 @@ export default {
     };
   },
   created() {
-    this.$nextTick((_) => {
+    this.$nextTick(() => {
     });
   },
   methods: {
@@ -268,12 +274,10 @@ export default {
     },
     // 收藏
     handleCollect(val) {
-      alert('收藏消息');
       console.log(val);
-      event.cancelBubble = true;
     },
     // 行内双击
-    handleRowClick(row, event, column) {
+    handleRowClick(column) {
       this.dialogVisible = true;
       console.log(column);
     },
@@ -308,8 +312,8 @@ export default {
   },
   computed: {
     tableDatas() {
-      const _range = this.currentPage - 1;
-      return this.tableData.slice(_range * this.pageSize, _range * this.pageSize + this.pageSize);
+      const range = this.currentPage - 1;
+      return this.tableData.slice(range * this.pageSize, range * this.pageSize + this.pageSize);
     },
     total() {
       return this.tableData.length;

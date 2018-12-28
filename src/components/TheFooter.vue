@@ -1,8 +1,3 @@
-<!--
- * @Module 底部版权
- * @Author jinxl
- -->
-
 <template>
   <div class="footer">
     <span class="footer--container">
@@ -37,10 +32,10 @@ export default {
     background: #ffffff;
     text-align: right;
     width: 100%;
-    height: 30px;
+    height: 40px;
     @include m(container){
       padding-right: 20px;
-      line-height: 30px;
+      line-height: 40px;
       font-size: 12px;
       color: #666666;
       opacity: 0.6;

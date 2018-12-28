@@ -84,6 +84,7 @@ export default {
     top: 0;
     position: fixed;
     z-index: 100;
+    box-shadow: 0 4px 6px 0 rgba(228,242,255,.5);
     .header-inner{
       display: flex;
       width: 1366px;

@@ -8,7 +8,6 @@
   #app {
     height: 100%;
     background: #f7f7f7;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 </style>

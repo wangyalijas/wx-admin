@@ -1,8 +1,3 @@
-<!--
- * @Module 校招管理
- * @Author jinxl
- -->
-
 <template>
     <div class="school" v-loading="loading">
       <!--行程列表-->
@@ -284,25 +279,13 @@ export default {
     };
   },
   created() {
-    this.$nextTick((_) => {
-      this.init();
+    this.$nextTick(() => {
+      this.fetchPageDataAsync();
     });
   },
   methods: {
-    // 初始化
-    init() {
-      this.getSchoolData();
-    },
     // 请求数据
-    getSchoolData() {
-      this.$http.get(this.$http.schoolData)
-        .then((data) => {
-          if (data.type) {
-            this.initData = data.data || [];
-          }
-        }).finally(() => {
-          this.loading = false;
-        });
+    fetchPageDataAsync() {
     },
     // 新增行程
     addNewJourney() {
@@ -338,7 +321,6 @@ export default {
     deleteCurrent(index) {
       this.initData.splice(index, 1);
       this.$message.success('删除成功');
-      event.cancelBubble = true; // 取消冒泡
     },
     // 关闭弹窗
     closeDetail() {
@@ -346,17 +328,10 @@ export default {
     },
   },
   computed: {
-    reversedMessage() {
-      return '';
-    },
   },
   watch: {
-    message() {
-    },
   },
   filters: {
-    subString() {
-    },
   },
   components: {},
 };
