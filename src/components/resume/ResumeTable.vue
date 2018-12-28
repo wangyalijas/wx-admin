@@ -1,10 +1,5 @@
-<!--
- * @Module 简历管理表格组件
- * @Author jinxl
- -->
-
 <template>
-  <div class="resume-table">
+  <div class="resume-inner">
     <el-table
       ref="multipleTable"
       :data="tableDatas"
@@ -84,7 +79,7 @@
       </el-table-column>
       <el-table-column
         prop="state"
-        label="标签"
+        label="状态"
         width="100"
         :filters="[{ text: '已读', value: '0' }, { text: '未读', value: '1' }, { text: '已转', value: '2' }]"
         :filter-method="filterTag"
@@ -97,8 +92,8 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <div class="resume-page">
-      <div class="resume-page-button">
+    <div class="resume-inner__pagination">
+      <div class="resume-inner__pagination--button">
         <el-button type="primary" size="small">下载</el-button>
         <el-button @click="transpondEmail" type="primary" size="small">转发至邮箱</el-button>
         <el-button v-if="tabIndex === 'first'" type="primary" size="small">收藏至人才库</el-button>
@@ -110,20 +105,20 @@
         :page-size= "pageSize"
         :current-page="currentPage"
         @current-change="handleCurrentChange"
-        layout="total, prev, pager, next, jumper"
+        layout="prev, pager, next, jumper"
         :total="total">
       </el-pagination>
     </div>
     <!--详细信息-->
-    <div class="resume-dialog">
+    <div class="resume-inner__dialog">
       <el-dialog
         width="50%"
         :visible.sync="dialogVisible"
         :before-close="handleClose">
         <div class="detail">
-          <div class="detail-head">
-            <div class="detail-head-img"></div>
-            <div class="detail-head-txt">
+          <div class="detail-header clearfix">
+            <div class="detail-header__img"></div>
+            <div class="detail-header__info">
               <h2>UI设计师<i class="iconfont icon-shou" title="点击收藏"></i></h2>
               <ul>
                 <li>投递时间：2018/09/01  17:00<strong>该简历已转发至: 25083223@qq.com</strong></li>
@@ -139,12 +134,14 @@
                 <li><i class="iconfont icon-yoji"></i>273098839@qq.com</li>
               </ul>
             </div>
-            <el-scrollbar class="detail-head-row">
+          </div>
+          <el-scrollbar class="detail-main">
+            <div>
               <!--工作经历-->
-              <div class="detail-head-item">
+              <div class="detail-main__item">
                 <h2><i class="iconfont icon-gozu"></i>工作经历</h2>
                 <div v-for="(item, index) in experie"
-                     class="detail-head-item-row"
+                     :class="['detail-main__item--row', { active: index == 0 }]"
                      :key="index">
                   <span>{{ item.date }}</span>
                   <span>{{ item.company}}</span>
@@ -153,10 +150,10 @@
                 </div>
               </div>
               <!--教育经历-->
-              <div class="detail-head-item">
+              <div class="detail-main__item">
                 <h2><i class="iconfont icon-jiyu"></i>教育经历</h2>
                 <div v-for="(item, index) in education"
-                     class="detail-head-item-row"
+                     :class="['detail-main__item--row', { active: index == 0 }]"
                      :key="index">
                   <span>{{ item.date }}</span>
                   <span>{{ item.school }}</span>
@@ -165,14 +162,14 @@
                 </div>
               </div>
               <!--相关附件-->
-              <div class="detail-head-item">
+              <div class="detail-main__item">
                 <h2><i class="iconfont icon-fuji"></i>相关附件</h2>
-                <div class="detail-head-item-row">
-                  <span>个人简历-黄宛如.doc</span>
+                <div class="detail-main__item--row">
+                  <i class="detail-main__item--row--file">个人简历-黄宛如.doc</i>
                 </div>
               </div>
-            </el-scrollbar>
-          </div>
+            </div>
+          </el-scrollbar>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="dialogVisible = false"
@@ -330,163 +327,182 @@ export default {
 };
 </script>
 <!--CSS-PAGE-->
-<style lang="scss" scoped>
+<style lang="scss">
   $iconColor: #FF853B;
-  .resume-table{
-    /deep/ .el-table{
+  .resume-inner{
+    .el-table{
       min-height: 686px;
-    }
-    /deep/ .el-table__row{
-      &:hover{
-        .resume-table-enclosure{
-          div{
-            visibility: visible;
+      th{
+        padding: 6px 0;
+        border-bottom: none;
+        font-size: 14px;
+        color: #666666;
+      }
+      td{
+        padding: 4px 0;
+        border-bottom: none;
+        font-size: 13px;
+        color: #333333;
+        .cell{
+          .resume-table-name{
+            i{
+              margin-left: 5px;
+              &.icon-nan{
+                color: #38A2EC;
+              }
+              &.icon-nv{
+                color: #F097C8;
+              }
+            }
+          }
+          .resume-table-enclosure{
+            display: flex;
+            >i{
+              margin-right: 20px;
+            }
+            div{
+              visibility: hidden;
+              flex: 1;
+              text-align: right;
+              i{
+                margin-right: 15px;
+                color: #505DD8;
+                cursor: pointer;
+              }
+            }
           }
         }
       }
-    }
-    .resume-table-name{
-      i{
-        margin-left: 5px;
-        &.icon-nan{
-          color: #38A2EC;
-        }
-        &.icon-nv{
-          color: #F097C8;
-        }
+      .el-table__row:hover td{
+        background: #E1EEFF;
       }
     }
-    .resume-table-enclosure{
-      display: flex;
-      >i{
-        margin-right: 20px;
-      }
-      div{
-        visibility: hidden;
-        flex: 1;
-        text-align: right;
-        i{
-          margin-right: 15px;
-          color: #505DD8;
-          cursor: pointer;
-        }
-      }
-    }
-    .resume-page{
+    @include e(pagination){
       padding: 20px 10px;
       text-align: right;
       background: #fff;
-      .resume-page-button{
+      @include m(button){
         float: left;
+        .el-button--small{
+          padding: 8px 26px;
+          background: #508FD8;
+          border-radius: 2px;
+          border-color: #508FD8;
+          font-size: 14px;
+        }
       }
     }
-    .resume-dialog{
-      /deep/ .el-dialog__body{
+    @include e(dialog){
+      .el-dialog__body{
         padding: 20px 30px;
-      }
-      .detail{
-        .detail-head{
-          .detail-head-img{
-            float: left;
-            width:150px ;
-            height: 180px;
-            margin-right: 30px;
-            border-radius: 4px;
-            background: url("../assets/images/man.png") no-repeat;
-          }
-          .detail-head-row{
-            height:385px;
-            margin-top: 30px;
-          }
-          .detail-head-txt{
-            h2{
-              margin-bottom: 15px;
-              font-size: 24px;
-              color: #333333;
-              i{
-                margin-left: 10px;
-                color: #505DD8;
-                font-size: 20px;
-                line-height: 1.6;
-              }
+        .detail{
+          .detail-header{
+            @include e(img){
+              float: left;
+              width:150px ;
+              height: 180px;
+              margin-right: 30px;
+              border-radius: 4px;
+              background: url("../../assets/images/man.png") no-repeat;
             }
-            ul{
-              li{
-                margin-bottom: 15px;
-                font-size: 14px;
+            @include e(info){
+              float: left;
+              h2{
+                margin-bottom: 5px;
+                font-size: 24px;
                 color: #333333;
-                strong{
-                  margin-left: 19px;
-                  font-size: 14px;
-                  color: #989898;
+                i{
+                  margin-left: 10px;
+                  color: #505DD8;
+                  font-size: 20px;
+                  line-height: 1.6;
                 }
-                span{
-                  position: relative;
-                  margin-right: 15px;
-                  &:after{
-                    position: absolute;
-                    content: '';
-                    top: 4px;
-                    right: -10px;
-                    height: 60%;
-                    border-right: 1px solid #979797;
+              }
+              ul{
+                li{
+                  margin-bottom: 10px;
+                  font-size: 14px;
+                  color: #333333;
+                  strong{
+                    margin-left: 19px;
+                    font-size: 14px;
+                    color: #989898;
                   }
-                  &:last-child{
+                  span{
+                    position: relative;
+                    margin-right: 15px;
                     &:after{
-                      height: 0px;
+                      position: absolute;
+                      content: '';
+                      top: 4px;
+                      right: -10px;
+                      height: 60%;
+                      border-right: 1px solid #979797;
+                    }
+                    &:last-child{
+                      &:after{
+                        height: 0;
+                      }
                     }
                   }
-                }
-                i{
-                  margin-right: 9px;
-                  color:#666 ;
-                  font-size: 16px;
-                  &.icon-yoji{
-                    font-size: 12px;
+                  i{
+                    margin-right: 9px;
+                    color:#666 ;
+                    font-size: 16px;
+                    &.icon-yoji{
+                      font-size: 12px;
+                    }
                   }
-                }
-                &:last-child{
-                  margin-bottom: 0px;
+                  &:last-child{
+                    margin-bottom: 0;
+                  }
                 }
               }
             }
           }
-          .detail-head-item{
-            margin-bottom: 30px;
-            h2{
-              margin-bottom: 10px;
-              font-size: 16px;
-              color: #333333;
-              @include bold;
-              i{
-                float: left;
-                margin-top: -1px;
-                margin-right: 5px;
-                color: $iconColor;
+          .detail-main{
+            height:385px;
+            margin-top: 30px;
+            @include e(item){
+              margin-top: 80px;
+              h2{
+                margin-bottom: 25px;
                 font-size: 16px;
-                font-weight: normal;
-                &.icon-jiyu{
-                  font-size: 18px;
+                color: #333333;
+                @include bold;
+                i{
+                  margin-right: 8px;
+                  color: $iconColor;
+                  font-size: 16px;
+                  font-weight: normal;
+                  vertical-align: bottom;
                 }
               }
-            }
-            .detail-head-item-row{
-              display: flex;
-              line-height: 3;
-              text-align: center;
-              &:first-child{
-                margin-top: 80px;
-              }
-              span{
-                width: 25%;
-                font-size: 13px;
+              @include m(row){
+                display: flex;
+                line-height: 3;
+                text-align: center;
                 color: #666666;
+                span{
+                  width: 25%;
+                  font-size: 13px;
+                }
+                &.active span{
+                  color: #333333;
+                }
+                @include modifier(file){
+                  color: #505DD8;
+                  font-size: 13px;
+                  font-style: normal;
+                  line-height: 15px;
+                  border-bottom: 1px solid #505DD8;
+                }
               }
             }
           }
         }
       }
-      /deep/ .dialog-footer{
+      .dialog-footer{
         i{
           font-size: 14px;
           color: #fff;

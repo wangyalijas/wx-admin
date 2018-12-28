@@ -1,14 +1,9 @@
-<!--
- * @Module 简历管理
- * @Author jinxl
- -->
-
 <template>
   <div class="resume">
     <div class="resume-search">
       <el-input
         size="small"
-        placeholder="请输入内容"
+        placeholder="按关键字检索"
         clearable
         @keyup.enter.native="handleSearch"
         v-model="search">
@@ -32,7 +27,7 @@
 </template>
 <!--JavaScript-->
 <script>
-import ResumeTable from '@/components/ResumeTable.vue';
+import ResumeTable from '@/components/resume/ResumeTable.vue';
 
 export default {
   data() {
@@ -40,7 +35,10 @@ export default {
       loading: false,
       activeName: 'first',
       search: '',
-      inboxData: [],
+      inboxData: [{
+        name: 'sdvgsdf',
+        state: '1',
+      }],
       talentData: [],
     };
   },
@@ -52,15 +50,6 @@ export default {
   methods: {
     // 获取简历管理数据
     getResumeTable() {
-      this.$http.get(this.$http.reTable)
-        .then((data) => {
-          if (data.type) {
-            this.inboxData = data.data || [];
-            this.talentData = data.resume || [];
-          }
-        }).finally(() => {
-          this.loading = false;
-        });
     },
     handleTab(tab) {
       console.log(tab);
@@ -93,7 +82,7 @@ export default {
 };
 </script>
 <!--CSS-PAGE-->
-<style lang="scss" scoped>
+<style lang="scss">
   .resume{
     position: relative;
     height: 100%;
@@ -104,44 +93,26 @@ export default {
       z-index: 10;
     }
     .resume-table{
-      padding: 10px;
-      /deep/ .el-tabs__active-bar{
-        background-color: #508FD8;
-      }
-      /deep/ .el-tabs__item{
-        width: 108px;
-        color: #666666;
-        font-size: 16px;
-        text-align: center;
-        font-weight: bold;
-        &.is-active{
-          height:3px;
-          color: #508FD8;
+      padding: 10px 30px 10px 10px;
+      .el-tabs{
+        .el-tabs__active-bar{
+          background-color: #508FD8;
+        }
+        .el-tabs__item{
+          width: 108px;
+          color: #666666;
+          font-size: 15px;
+          text-align: center;
+          font-weight: bold;
+          &.is-active{
+            height:3px;
+            color: #508FD8;
+          }
+        }
+        .el-tabs__nav-wrap::after{
+          height: 0;
         }
       }
-      /deep/ .el-tabs__nav-wrap::after{
-        height: 0px;
-      }
-    }
-    .resume-detail{
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      transition: all ease-in .3s;
-      width: 100%;
-      @include test;
-      background: #fff;
-      z-index: 10;
-      display: none;
     }
   }
-  /*1660*/
-  @media screen and (max-width: 1660px) {
-  }
-  /*1366*/
-  @media screen and (max-width: 1366px) {
-  }
-</style>
-<!--CSS-RESET-->
-<style lang="scss">
 </style>

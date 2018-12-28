@@ -1,8 +1,3 @@
-<!--
- * @Module 招聘管理
- * @Author jinxl
- -->
-
 <template>
   <div class="resume">
     <div class="resume-search">
@@ -35,7 +30,7 @@
 </template>
 <!--JavaScript-->
 <script>
-import ResumeTable from '@/components/ResumeTable.vue';
+import ResumeTable from '@/components/resume/ResumeTable.vue';
 
 export default {
   name: 'job',

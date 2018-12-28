@@ -20,7 +20,7 @@
       <div class="header-inner__user">
         <span class="header-inner__user--title">卫宁健康，您好</span>
         <div @click="viewMessageFunc" class="header-inner__user--msg">
-          <i class="el-icon-bell"></i>
+          <i class="iconfont icon-tozh"></i>
           <span>99+</span></div>
       </div>
       <div @click="loginOutFunc" class="header-inner--out">[退出]</div>
@@ -79,7 +79,11 @@ export default {
 <!--CSS-PAGE-->
 <style lang="scss">
   .header{
+    width: 100%;
     background: #3270B8;
+    top: 0;
+    position: fixed;
+    z-index: 100;
     .header-inner{
       display: flex;
       width: 1366px;
@@ -144,9 +148,6 @@ export default {
             border-radius: 10px;
             background: #de5252;
             transform: scale(0.8);
-          }
-          .el-icon-bell{
-            font-size: 20px;
           }
         }
       }
