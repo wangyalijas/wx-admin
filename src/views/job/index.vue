@@ -51,13 +51,15 @@
             </el-form-item>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="宣讲时间" prop="aboutTime">
-                  <el-date-picker type="date"
-                                  placeholder="宣讲时间"
-                                  style="width: 100%"
-                                  value-format="yyyy/MM/dd"
-                                  v-model="journeyForm.aboutTime">
-                  </el-date-picker>
+                <el-form-item label="学历要求" prop="education">
+                  <el-select v-model="education" placeholder="请选择">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
