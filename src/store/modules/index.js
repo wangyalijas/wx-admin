@@ -3,6 +3,7 @@ import resume from './resume';
 import campusProcess from './campusProcess';
 import user from './user';
 import news from './news';
+import login from './login';
 
 export default {
   job,
@@ -10,4 +11,5 @@ export default {
   campusProcess,
   user,
   news,
+  login,
 };

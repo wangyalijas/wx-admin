@@ -1,118 +1,285 @@
-<!--
- * @Module 登录
- * @Author jinxl
- -->
-
 <template>
-  <div class="page-container">
-    <div id="loginBox">
-      <!--左边背景图片-->
-      <div class="loginImg"></div>
-      <!--右边输入框-->
-      <div class="login">
-        <div class="login-inner">
-          <div class="inputBox">
-            <div class="account ">
-              <div class="visable">账号</div>
-              <span class="visable">账号</span>
-              <input type="text"
-                     v-model="form.username"
-                     placeholder="用户名">
-              <i class="visable"></i>
+  <div class="login">
+    <div class="login-inner">
+      <div class="login-inner-box">
+        <!--左边背景图片-->
+        <div class="img"></div>
+        <!--右边输入框-->
+        <div class="main">
+          <div class="main-inner">
+            <div class="main-inner__logo">
+              <img src="../../assets/images/logo-mini.png"/>
+              <span class="main-inner__logo--title">W.UED</span>
             </div>
-            <div class="password">
-              <div class="visable">密码</div>
-              <span class="visable">密码</span>
-              <input class="passwordInput"
-                     v-model="form.password"
-                     type="password"
-                     placeholder="密码">
-              <input class="replaceInput" style="display: none" type="text">
-              <i class="lookPassword visable"></i>
+            <div class="main-inner__input">
+              <div class="main-inner__input--default">
+                <div :class="{hideTopLabel: !accountFocusFlag}">账号</div>
+                <span v-if="!accountFocusFlag">账号</span>
+                <input type="text" v-model="userAccount"
+                       @focus="accountInputFocus" @blur="accountInputFocus"/>
+              </div>
+              <div class="main-inner__input--default">
+                <div :class="{hideTopLabel: !passwordFocusFlag}">密码</div>
+                <span v-if="!passwordFocusFlag">密码</span>
+                <input type="password"
+                       v-model="userPassword"
+                       v-if="!psdVisibleFlag"
+                       @focus="passwordInputFocus"
+                       @blur="passwordInputFocus"
+                       @keyup.enter="loginEntry"/>
+                <input type="text"
+                       v-model="userPassword"
+                       v-if="psdVisibleFlag"
+                       @focus="passwordInputFocus"
+                       @blur="passwordInputFocus"
+                       @keyup.enter="loginEntry">
+                <i class="main-inner__input--default--btn"
+                   :class="{eyeOpen: psdVisibleFlag}" @click="lookPassword"></i>
+              </div>
             </div>
+            <div class="main-inner__memory">
+              <div class="main-inner__memory--forget" @click="forgetPassword">忘记密码？</div>
+            </div>
+            <div class="main-inner--msg">{{mistakeTip}}</div>
+            <div class="main-inner--button" :class="{active : userPassword.length <= 3}"
+                 @click="loginEntry">登录</div>
           </div>
-          <div class="memory visable">
-            <div class="remember ">
-              <input class="ordinary-check" id="remember" type="checkbox">
-              <label for="remember">记住我</label>
-            </div>
-            <div class="forget">忘记密码？</div>
-            <div class="help hidden-block">请联系系统管理员获取帮助<i></i></div>
-          </div>
-          <div class="misinput">用户名或密码错误，请重新输入</div>
-          <div id="entry" @click="login">登录</div>
         </div>
       </div>
     </div>
+    <!-- 底部 -->
   </div>
 </template>
-<!--JavaScript-->
+
 <script>
+import { mapGetters } from 'vuex';
+
+// @ is an alias to /src
 export default {
+  name: 'login',
   data() {
     return {
-      form: {
-        username: '',
-        password: '',
-      },
+      userAccount: this.userName, // 账户名
+      userPassword: '', // 密码
+      mistakeTip: '', // 错误提示
+      accountFocusFlag: false, // 账户
+      passwordFocusFlag: false, // 密码
+      psdVisibleFlag: false, // 密码是否可见
     };
   },
-  created() {
-
-  },
-  methods: {
-    login() {
-      this.$http.post(
-        { url: 'user/signup' },
-        this.form,
-      ).then((data) => {
-        if (data.type) {
-          sessionStorage.setItem('login', 'winn');
-          this.$message({
-            duration: 1000,
-            message: data.msg,
-            type: 'success',
-          });
-          setTimeout(() => {
-            this.$router.push({ name: 'index' });
-          }, 1000);
-        } else {
-          this.$message({
-            showClose: true,
-            message: '用户名或密码错误',
-            type: 'error',
-          });
-        }
-      });
-    },
+  components: {
   },
   computed: {
-    reversedMessage() {
-      return '';
-    },
+    ...mapGetters({
+      userName: 'handleUserAccount',
+    }),
   },
   watch: {
-    message() {
+  },
+  created() {
+    this.$nextTick(() => {
+      this.initAccountInput();
+    });
+  },
+  methods: {
+    initAccountInput() {
+      // 初始化账户输入框
+      if (this.userAccount) {
+        this.accountFocusFlag = !this.accountFocusFlag;
+      }
+    },
+    accountInputFocus() {
+      // 账户输入事件
+      if (!this.userAccount) {
+        this.accountFocusFlag = !this.accountFocusFlag;
+      }
+    },
+    passwordInputFocus() {
+      // 密码输入事件
+      if (!this.userPassword) {
+        this.passwordFocusFlag = !this.passwordFocusFlag;
+      }
+    },
+    lookPassword() {
+      // 密码是否可见
+      this.psdVisibleFlag = !this.psdVisibleFlag;
+    },
+    forgetPassword() {
+      // 忘记密码
+      this.$message('请联系管理员');
+    },
+    checkIsEmpty() {
+      let isEmpty = true;
+      this.mistakeTip = '';
+      if (this.userAccount.replace(/\s+/g, '').length <= 0) {
+        this.mistakeTip = '请输入账户名';
+        isEmpty = false;
+      } else if (this.userPassword.replace(/\s+/g, '').length <= 0) {
+        this.mistakeTip = '请输入密码';
+        isEmpty = false;
+      }
+      return isEmpty;
+    },
+    async loginEntry() {
+      const isEmpty = this.checkIsEmpty();
+      if (isEmpty) {
+        const params = {
+          userNo: this.userAccount.replace(/\s+/g, ''),
+          password: this.userPassword.replace(/\s+/g, ''),
+        };
+        const result = await this.$store.dispatch('login/postLogin', params);
+        if (Object.prototype.hasOwnProperty.call(result, 'isAdmin')) {
+          this.$store.commit('login/updateUserInfo', result);
+          this.$router.push({
+            name: this.$store.state.login.userInfo.isAdmin ? 'userManagement' : 'articleManagement',
+          });
+        }
+      }
     },
   },
-  filters: {
-    subString() {
-    },
-  },
-  components: {},
 };
-
 </script>
-<!--CSS-PAGE-->
 <style lang="scss" scoped>
-
-  /*1660*/
-  @media screen and (max-width: 1660px) {
+  .login {
+    height: 100%;
+    position: relative;
+    background-color: #F3F5F7;
+    .login-inner {
+      position: relative;
+      height: calc(100% - 40px);
+      .login-inner-box {
+        width: 804px;
+        height: 432px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -216px 0 0 -402px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 0 10px 0 #f4533121;
+        .img {
+          float: left;
+          width: 300px;
+          height: 433px;
+          background-image: url("../../assets/images/logo-bg.png");
+          background-repeat: no-repeat;
+          background-position: center center;
+        }
+        .main {
+          width: 503px;
+          height: 433px;
+          float: right;
+          position: relative;
+          .main-inner {
+            width: 206px;
+            height: 280px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -140px 0 0 -203px;
+            overflow: hidden;
+            @include e(logo){
+              text-align: center;
+              margin-bottom: 10px;
+              @include m(title){
+                display: block;
+                color: #F45331;
+                font-size: 12px;
+                transform: scale(0.7);
+              }
+            }
+            /*输入框部分*/
+            @include e(input) {
+              width: 260px;
+              @include m(default){
+                margin-top: 5px;
+                position: relative;
+                span {
+                  top: 22px;
+                  left: 0;
+                  color: #666;
+                  cursor: text;
+                  z-index: 1000;
+                  font-size: 16px;
+                  position: absolute;
+                }
+                div {
+                  font-size: 12px;
+                  color: #F45331;
+                }
+                .hideTopLabel {
+                  visibility: hidden;
+                }
+                input {
+                  width: 100%;
+                  height: 34px;
+                  color: #333333;
+                  font-size: 14px;
+                  border-top: 0;
+                  border-left: 0;
+                  border-right: 0;
+                  position: relative;
+                  border-bottom: 1px solid #FAC2B6;
+                }
+                @include modifier(btn){
+                  top: 28px;
+                  right: 3px;
+                  width: 24px;
+                  height: 20px;
+                  z-index: 1000;
+                  cursor: pointer;
+                  position: absolute;
+                  background-color: #fff;
+                  background-image: url("../../assets/images/eyeClosed.png");
+                  background-repeat: no-repeat;
+                  background-position: center center;
+                  &.eyeOpen {
+                    background-image: url("../../assets/images/eyeOpen.png");
+                  }
+                }
+              }
+            }
+            /*记住我，忘记密码等*/
+            @include e(memory) {
+              width: 260px;
+              height: 32px;
+              margin-top: 12px;
+              line-height: 32px;
+              position: relative;
+              @include m(forget){
+                float: right;
+                color: #F45331;
+                cursor: pointer;
+                font-size: 12px;
+              }
+            }
+            /*信息有误提示信息*/
+            @include m(msg) {
+              width: 260px;
+              color: #D0021B;
+              font-size: 12px;
+              margin-top: 5px;
+              text-align: center;
+            }
+            /*登录按钮*/
+            @include m(button) {
+              width: 260px;
+              height: 40px;
+              color: #FFFFFF;
+              font-size: 16px;
+              cursor: pointer;
+              line-height: 40px;
+              margin-top: 17px;
+              text-align: center;
+              background: #F45331;
+              border-radius: 2px;
+              &.active {
+                background: #F45331;
+              }
+            }
+          }
+        }
+      }
+    }
   }
-  /*1366*/
-  @media screen and (max-width: 1366px){
-  }
-</style>
-<!--CSS-RESET-->
-<style lang="scss">
 </style>

@@ -8,7 +8,7 @@ import setting from '@/services/config';
 const mockMode = false; // 是否使用mock数据
 const axios = require('axios');
 
-const baseURL = mockMode ? '../css/mock/' : setting.baseUrl;
+const baseURL = mockMode ? '' : setting.baseUrl;
 
 const catchErrorEvt = function catchErrorEvt(error) {
   let msg = '';

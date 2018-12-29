@@ -5,5 +5,9 @@ export default {
     'X-UserId': 8,
     'X-OpenId': 'admin',
   },
-  isSchool: false,
+  userInfo: {
+    userAccount: '',
+    userId: '',
+    openId: '',
+  },
 };

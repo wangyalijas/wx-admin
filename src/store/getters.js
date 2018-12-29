@@ -30,7 +30,7 @@ export default {
   handleEducationType({ constant }) {
     return constant ? objectToArray(constant.Education) || [] : [];
   },
-  handleIsSchool(state) {
-    return state.isSchool;
+  handleUserAccount(state) {
+    return state.userInfo.userAccount;
   },
 };
