@@ -46,63 +46,65 @@
             <el-form-item label="工作地点" prop="place">
               <el-input v-model="journeyForm.place"></el-input>
             </el-form-item>
-            <el-form-item label="工作年限" prop="workLife">
-              <el-input v-model="journeyForm.workLife"></el-input>
+            <el-form-item label="招聘类型" prop="recruitType">
+              <template v-for="item in recruitType">
+                <el-radio
+                  :key="item.id"
+                  v-model="journeyForm.recruitType"
+                  :label="item.id">{{item.description}}</el-radio>
+              </template>
             </el-form-item>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="学历要求" prop="education">
-                  <el-select v-model="education" placeholder="请选择">
+                  <el-select v-model="journeyForm.education" placeholder="请选择">
                     <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="(item, index) in educationType"
+                      :key="index"
+                      :label="item.description"
+                      :value="item.id">
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="简历截止" prop="resumeStop">
-                  <el-date-picker type="date"
-                                  placeholder="简历截止"
-                                  style="width: 100%"
-                                  value-format="yyyy/MM/dd"
-                                  v-model="journeyForm.resumeStop">
-                  </el-date-picker>
+                <el-form-item label="工作类型" prop="jobType">
+                  <el-select v-model="journeyForm.jobType" placeholder="请选择">
+                    <el-option
+                      v-for="(item, index) in jobType"
+                      :key="index"
+                      :label="item.description"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="线上笔试" prop="writtenTime">
-                  <el-date-picker type="date"
-                                  placeholder="线上笔试"
-                                  style="width: 100%"
-                                  value-format="yyyy/MM/dd"
-                                  v-model="journeyForm.writtenTime">
-                  </el-date-picker>
+                <el-form-item label="招聘人数" prop="recruitCount">
+                  <el-input
+                  v-model="journeyForm.recruitCount"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="面试时间" prop="interviewTime">
-                  <el-date-picker type="date"
-                                  placeholder="面试时间"
-                                  style="width: 100%"
-                                  value-format="yyyy/MM/dd"
-                                  v-model="journeyForm.interviewTime">
-                  </el-date-picker>
+                <el-form-item label="工作年限" prop="workLife">
+                  <el-input v-model="journeyForm.workLife"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-form-item label="宣讲内容" prop="preachContent">
+            <el-form-item label="工作职责" prop="duty">
               <el-input type="textarea"
-                        v-model="journeyForm.preachContent"></el-input>
+                        v-model="journeyForm.duty"></el-input>
+            </el-form-item>
+            <el-form-item label="工作要求" prop="requirement">
+              <el-input type="textarea"
+                        v-model="journeyForm.requirement"></el-input>
             </el-form-item>
           </el-form>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button type="warning" @click="releaseJourney('journeyForm')"
+          <el-button type="warning" @click="postJob('journeyForm')"
                      icon="iconfont icon-faso" size="small">发布
           </el-button>
           <el-button type="danger"
@@ -116,6 +118,7 @@
 </template>
 <!--JavaScript-->
 <script>
+import { mapGetters } from 'vuex';
 import ResumeTable from '@/components/resume/ResumeTable.vue';
 
 export default {
@@ -127,7 +130,7 @@ export default {
       search: '',
       onlineData: [],
       offlineData: [],
-      journeyVisible: true,
+      journeyVisible: false,
       journeyForm: {
         name: '',
         place: '',
@@ -171,29 +174,47 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters({
+      educationType: 'handleEducationType',
+      recruitType: 'handleRecruitType',
+      jobType: 'handleJobType',
+    }),
+  },
   created() {
-    this.init();
+    this.$nextTick(() => {
+      this.init();
+    });
   },
   methods: {
-    // 初始化
     init() {
-      this.getResumeTable();
+      this.getJobList();
     },
-    // 获取招聘管理数据
-    getResumeTable() {
+    getJobList() {
+      this.loading = true;
+      this.$store.dispatch('job/')
     },
     handleTab(tab) {
       console.log(tab);
     },
-    // 条件搜索
     handleSearch() {
     },
-    // 子组件触发父组件
     rowOperates(str) {
       console.log(str);
     },
-  },
-  computed: {
+    postJob(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (!valid) {
+          return this.$message.error('请确实格式！');
+        }
+        this.$store.dispatch('job/postJob', this.journeyForm).then((res) => {
+          if (res.state) {
+            this.$message.success(res.tip);
+            this.journeyVisible = false;
+          }
+        });
+      });
+    },
   },
   watch: {
   },

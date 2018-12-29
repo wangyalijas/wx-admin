@@ -7,13 +7,13 @@ function addAllDataToConstantTop(constantData, allData = [{id: '', name: '全部
 }
 export default {
   handleJobType({ constant }) {
-    return constant ? addAllDataToConstantTop(objectToArray(constant.JobType)) || [] : [];
+    return constant ? objectToArray(constant.JobType) || [] : [];
   },
   handleWorkPlace({ constant }) {
     return constant ? constant.WorkPlace|| [] : [];
   },
   handleRecruitType({ constant }) {
-    return constant ? addAllDataToConstantTop(objectToArray(constant.RecruitType)) || [] : [];
+    return constant ? objectToArray(constant.RecruitType) || [] : [];
   },
   handleGender({ constant }) {
     return constant ? objectToArray(constant.Gender) || [] : [];
