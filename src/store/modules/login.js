@@ -13,7 +13,7 @@ const login = {
   actions: {
     postLogin(state, params) {
       return new Promise((resolve, reject) => {
-        api(setting.urlConfig.postLogin, params).then((data) => {
+        api(setting.urlConfig.login.postLogin, params).then((data) => {
           console.log('%c%s', 'color:blue', '=======> 登录');
           resolve(data);
         }).catch((err) => {

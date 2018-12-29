@@ -124,7 +124,7 @@ export default {
           password: this.userPassword.replace(/\s+/g, ''),
         };
         const result = await this.$store.dispatch('login/postLogin', params);
-        if (result.state) {
+        if (Object.prototype.hasOwnProperty.call(result, 'userId')) {
           this.$store.commit('getOpenIdUserId', {
             'X-UserId': result.userId,
             'X-OpenId': result.openId,

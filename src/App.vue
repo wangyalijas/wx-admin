@@ -23,12 +23,16 @@ export default {
       userName: 'handleUserAccount',
     }),
   },
-  created() {
-    this.$nextTick(() => {
-      if (this.userName) {
+  watch: {
+    '$route'(to, from) {
+      if (to.name !== 'login') {
         this.getEnum();
         this.getConstant();
       }
+    },
+  },
+  created() {
+    this.$nextTick(() => {
     });
   },
 };

@@ -13,7 +13,7 @@ const campusProcess = {
   actions: {
     getScheduleList(state, params) {
       return new Promise((resolve, reject) => {
-        api(setting.urlConfig.getScheduleList, params).then((data) => {
+        api(setting.urlConfig.school.getScheduleList, params).then((data) => {
           console.log('%c%s', 'color:blue', '=======> 获取校园行程列表');
           resolve(data);
         }).catch((err) => {

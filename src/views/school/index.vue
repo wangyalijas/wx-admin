@@ -31,37 +31,11 @@
 export default {
   data() {
     return {
-      pageData: [{
-        aboutTime: '2018/06/03',
-        schoolName: '广州美术学院',
-        city: '广州',
-        total: '102',
-        state: '',
-      }, {
-        aboutTime: '2018/06/03',
-        schoolName: '广州美术学院',
-        city: '广州',
-        total: '102',
-        state: '',
-      }, {
-        aboutTime: '2018/06/03',
-        schoolName: '广州美术学院',
-        city: '广州',
-        total: '102',
-        state: '',
-      }, {
-        aboutTime: '2018/06/03',
-        schoolName: '广州美术学院',
-        city: '广州',
-        total: '102',
-        state: '',
-      }, {
-        aboutTime: '2018/06/03',
-        schoolName: '广州美术学院',
-        city: '广州',
-        total: '102',
-        state: '',
-      }],
+      pageData: [],
+      pagination: {
+        currentPage: 1,
+        pageSize: 8,
+      },
     };
   },
   created() {
@@ -70,7 +44,10 @@ export default {
     });
   },
   methods: {
-    fetchPageDataAsync() {},
+    async fetchPageDataAsync() {
+      const params = this.pagination;
+      this.pageData = await this.$store.dispatch('campusProcess/getScheduleList', params);
+    },
   },
   computed: {
   },
