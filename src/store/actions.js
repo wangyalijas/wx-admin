@@ -6,7 +6,7 @@ export default {
     const params = {
       type,
     };
-    http(api.job.getEnum, params, state.header).then((data) => {
+    http(api.urlConfig.getEnum, params, state.header).then((data) => {
       commit('settingEnum', data);
     });
   },
@@ -14,7 +14,7 @@ export default {
     const params = {
       type,
     };
-    http(api.job.getConstant, params, state.header).then((data) => {
+    http(api.urlConfig.getConstant, params, state.header).then((data) => {
       commit('settingConstant', data);
     });
   },
