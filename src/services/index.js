@@ -10,12 +10,26 @@ const axios = require('axios');
 
 const baseURL = mockMode ? '../css/mock/' : setting.baseUrl;
 
-axios.interceptors.request.use((config) => {
-  // 这里可以加一些交互动作，比如来个进度条开始效果
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+const catchErrorEvt = function catchErrorEvt(error) {
+  let msg = '';
+  switch (error) {
+    case 422:
+      msg = '非法参数';
+      break;
+    case 500:
+      msg = '服务器内部错误';
+      break;
+    case 401:
+      msg = '非法访问';
+      break;
+    default:
+      msg = '其他类型错误';
+  }
+  Message({
+    message: msg,
+    type: 'error',
+  });
+};
 
 axios.interceptors.response.use((res) => {
   if (res.status >= 200 && res.status <= 300) {
@@ -24,26 +38,11 @@ axios.interceptors.response.use((res) => {
   // 由后端抛出的错误
   return Promise.reject(res);
 }, (error) => {
-  // 由网络服务器抛出的错误
-  return Promise.reject(error);
+  // 拦截
+  catchErrorEvt(JSON.parse(JSON.stringify(error)).response.status);
+  Promise.reject(error);
 });
 
-const catchErrorEvt = function (error) {
-  switch (error.status) {
-    case 404:
-      console.log('接口不存在');
-      break;
-    case '500':
-      console.log('接口报错');
-      break;
-    default:
-      console.log('其他类型错误');
-  }
-  Message({
-    message: '网络错误',
-    type: 'error',
-  });
-};
 function successState(params) {
   if (params.res.data.state === false) {
     Message({
@@ -82,7 +81,6 @@ export default (options, data = {}, headers) => {
           url: options.url,
         });
       }).catch((error) => {
-        catchErrorEvt(error);
         reject(error);
       });
   });

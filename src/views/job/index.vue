@@ -179,46 +179,23 @@ export default {
     },
     // 获取招聘管理数据
     getResumeTable() {
-      this.$http.get(this.$http.joTable)
-        .then((data) => {
-          if (data.type) {
-            this.onlineData = data.data || [];
-            this.offlineData = data.job || [];
-          }
-        }).finally(() => {
-          this.loading = false;
-        });
     },
-    handleTab(tab, event) {
+    handleTab(tab) {
       console.log(tab);
     },
     // 条件搜索
     handleSearch() {
-      if (!this.search) { return false; }
-      this.$notify({
-        title: '成功',
-        message: `搜索关键字：${this.search}`,
-        type: 'success',
-      });
     },
     // 子组件触发父组件
     rowOperates(str) {
-      alert(str);
-      event.cancelBubble = true;
+      console.log(str);
     },
   },
   computed: {
-    reversedMessage() {
-      return '';
-    },
   },
   watch: {
-    message() {
-    },
   },
   filters: {
-    subString() {
-    },
   },
   components: { ResumeTable },
 };

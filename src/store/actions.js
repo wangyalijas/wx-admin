@@ -6,7 +6,6 @@ export default {
     const params = {
       type,
     };
-    console.log(http, api)
     http(api.job.getEnum, params, state.header).then((data) => {
       commit('settingEnum', data);
     });
