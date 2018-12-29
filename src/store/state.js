@@ -2,8 +2,8 @@ export default {
   enum: null,
   constant: null,
   header: {
-    'X-UserId': '',
-    'X-OpenId': '',
+    'X-UserId': 8,
+    'X-OpenId': 'ued@2018',
   },
   userAccount: '',
 };

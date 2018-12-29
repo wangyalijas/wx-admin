@@ -28,5 +28,17 @@ export default {
         method: 'GET',
       },
     },
+    job: {
+      postJob: {
+        url: 'postJob',
+        mockUrl: '',
+        method: 'POST',
+      },
+      getJobList: {
+        url: 'getJobList',
+        mockUrl: '',
+        method: 'GET',
+      },
+    },
   },
 };
