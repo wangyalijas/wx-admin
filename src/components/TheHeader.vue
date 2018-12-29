@@ -18,7 +18,7 @@
         </el-menu>
       </div>
       <div class="header-inner__user">
-        <span class="header-inner__user--title">卫宁健康，您好</span>
+        <span class="header-inner__user--title">{{userName}}，您好</span>
         <div @click="viewMessageFunc" class="header-inner__user--msg">
           <i class="iconfont icon-tozh"></i>
           <span>99+</span></div>
@@ -29,7 +29,10 @@
 </template>
 <!--JavaScript-->
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
+  name: 'theHeader',
   data() {
     return {
       menuData: [{
@@ -52,6 +55,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      userName: 'handleUserAccount',
+    }),
   },
   watch: {},
   filters: {

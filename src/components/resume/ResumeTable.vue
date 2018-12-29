@@ -197,15 +197,8 @@
 export default {
   name: 'ResumeTable',
   props: {
-    tableData: {
-      type: Array,
-      default: () => [],
-      required: true,
-    },
-    tabIndex: {
-      type: String,
-      required: true,
-    },
+    tableData: Array,
+    tabIndex: String,
   },
   data() {
     return {

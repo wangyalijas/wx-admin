@@ -8,6 +8,7 @@
 <!--JavaScript-->
 <script>
 export default {
+  name: 'theFooter',
   data() {
     return {
     };

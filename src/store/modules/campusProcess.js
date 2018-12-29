@@ -23,7 +23,7 @@ const campusProcess = {
     },
     getSchedule(state, params) {
       return new Promise((resolve, reject) => {
-        api(setting.urlConfig.getSchedule, params).then((data) => {
+        api(setting.urlConfig.school.getSchedule, params).then((data) => {
           console.log('%c%s', 'color:blue', '=======> 获取校园行程详情');
           resolve(data);
         }).catch((err) => {

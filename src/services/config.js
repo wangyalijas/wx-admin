@@ -27,6 +27,11 @@ export default {
         mockUrl: '',
         method: 'GET',
       },
+      getSchedule: {
+        url: 'api/getSchedule',
+        mockUrl: '',
+        method: 'GET',
+      },
     },
   },
 };
