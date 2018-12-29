@@ -38,6 +38,33 @@ export default {
       inboxData: [{
         name: 'sdvgsdf',
         state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
+      }, {
+        name: 'sdvgsdf',
+        state: '1',
       }],
       talentData: [],
     };
