@@ -191,6 +191,8 @@ export default {
       this.getJobList();
     },
     getJobList() {
+      this.loading = true;
+      this.$store.dispatch('job/')
     },
     handleTab(tab) {
       console.log(tab);
