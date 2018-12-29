@@ -12,14 +12,18 @@
     </div>
     <!--简历收件箱-->
     <div class="resume-table" v-loading="loading">
-      <el-tabs v-model="activeName" @tab-click="handleTab">
-        <el-tab-pane label="简历收件箱" name="first">
-          <ResumeTable :tableData="inboxData" :tabIndex="activeName"/>
-        </el-tab-pane>
-        <el-tab-pane label="简历人才库" name="second">
-          <ResumeTable :tableData="talentData"  :tabIndex="activeName"/>
-        </el-tab-pane>
-      </el-tabs>
+      <!--<el-tabs v-model="activeName" @tab-click="handleTab">-->
+        <!--<el-tab-pane label="简历收件箱" name="first">-->
+          <!--<ResumeTable :tableData="inboxData" :tabIndex="activeName"/>-->
+        <!--</el-tab-pane>-->
+        <!--<el-tab-pane label="简历人才库" name="second">-->
+          <!--<ResumeTable :tableData="talentData"  :tabIndex="activeName"/>-->
+        <!--</el-tab-pane>-->
+      <!--</el-tabs>-->
+      <h2>简历收件箱</h2>
+      <ResumeTable
+      :tableData="talentData"
+      :tabIndex="activeName"/>
     </div>
     <!--详细信息-->
     <div class="resume-detail"></div>
@@ -121,6 +125,12 @@ export default {
     }
     .resume-table{
       padding: 10px 30px 10px 10px;
+      h2 {
+        padding: 13px 0 10px 10px;
+        font-size: 18px;
+        color: #333333;
+        font-weight: bold
+      }
       .el-tabs{
         .el-tabs__active-bar{
           background-color: #508FD8;
