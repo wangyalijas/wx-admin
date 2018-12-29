@@ -10,7 +10,6 @@
                 </span>
       </div>
       <div class="detail-item">
-        <div>宣讲城市：<span>{{detailsObj.place}}</span></div>
         <div>学校名称：<span>{{detailsObj.name}}</span></div>
         <div>详细地址：
           <span>{{detailsObj.place}}</span>
@@ -19,8 +18,10 @@
           <span>{{detailsObj.startTime}}</span>
         </div>
         <div>简历截止：<span>{{detailsObj.resumeEndTime}}</span></div>
-        <div>线上笔试：<span>{{detailsObj.writeExamStartTime}}</span></div>
-        <div>面试时间：<span>{{detailsObj.interviewStartTime}}</span></div>
+        <div>线上笔试：<span>
+          {{detailsObj.writeExamStartTime}} ~ {{detailsObj.writeExamEndTime}}</span></div>
+        <div>面试时间：<span>
+          {{detailsObj.interviewStartTime}} ~ {{detailsObj.interviewEndTime}}</span></div>
       </div>
       <div class="detail-content">
         <div class="detail-content--label">宣讲内容：</div>
@@ -155,7 +156,7 @@ export default {
         flex-wrap: wrap;
         margin: 20px 0 60px 0;
         >div{
-          flex: 0 0 25%;
+          flex: 0 0 33%;
           font-size: 13px;
           color: #666666;
           margin-bottom: 20px;

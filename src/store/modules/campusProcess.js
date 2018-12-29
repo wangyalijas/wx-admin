@@ -31,16 +31,6 @@ const campusProcess = {
         });
       });
     },
-    postUserSchedule(state, params) {
-      return new Promise((resolve, reject) => {
-        api(setting.urlConfig.postUserSchedule, params).then((data) => {
-          console.log('%c%s', 'color:blue', '=======> 校园行程报名');
-          resolve(data);
-        }).catch((err) => {
-          reject(err);
-        });
-      });
-    },
   },
 };
 export default campusProcess;

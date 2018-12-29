@@ -97,28 +97,26 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item label="线上笔试" prop="writtenTime">
-                    <el-date-picker type="date"
-                                    placeholder="线上笔试"
-                                    style="width: 100%"
-                                    value-format="yyyy/MM/dd"
-                                    v-model="journeyForm.writtenTime">
-                    </el-date-picker>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="面试时间" prop="interviewTime">
-                    <el-date-picker type="date"
-                                    placeholder="面试时间"
-                                    style="width: 100%"
-                                    value-format="yyyy/MM/dd"
-                                    v-model="journeyForm.interviewTime">
-                    </el-date-picker>
-                  </el-form-item>
-                </el-col>
-              </el-row>
+              <el-form-item label="线上笔试" prop="writtenTime">
+                <el-date-picker
+                  value-format="yyyy/MM/dd"
+                  v-model="journeyForm.writtenTime"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="面试时间" prop="interviewTime">
+                <el-date-picker
+                  value-format="yyyy/MM/dd"
+                  v-model="journeyForm.interviewTime"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </el-form-item>
               <el-form-item label="宣讲内容" prop="preachContent">
                 <el-input type="textarea"
                           :rows="4"
@@ -128,7 +126,9 @@
             </el-form>
           </div>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" icon="iconfont icon-faso">发布</el-button>
+            <el-button @click="releaseJourney"
+                       type="primary"
+                       icon="iconfont icon-faso">发布</el-button>
             <el-button>取消</el-button>
           </div>
         </el-dialog>
@@ -141,6 +141,7 @@ import { mapGetters } from 'vuex';
 import SchoolDetails from './details';
 
 export default {
+  name: 'school',
   data() {
     return {
       detailsFlag: false,
@@ -256,7 +257,6 @@ export default {
       this.detailsFlag = !this.detailsFlag;
     },
     releaseJourney(formName) {
-      // 发布行程
       console.log(formName);
     },
   },

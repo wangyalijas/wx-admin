@@ -39,6 +39,11 @@ export default new Router({
           name: 'school',
           component: loadView('school/index'),
         },
+        {
+          path: 'news',
+          name: 'news',
+          component: loadView('news/index'),
+        },
       ],
     },
   ],

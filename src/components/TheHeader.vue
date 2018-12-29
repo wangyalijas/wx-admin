@@ -49,7 +49,7 @@ export default {
         index: '2',
       }, {
         name: '集团信息管理',
-        route: 'company',
+        route: 'news',
         index: '3',
       }],
     };

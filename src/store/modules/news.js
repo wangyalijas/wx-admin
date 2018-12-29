@@ -13,7 +13,7 @@ const news = {
   actions: {
     getNewsList(state, params) {
       return new Promise((resolve, reject) => {
-        api(setting.urlConfig.getNewsList, params).then((data) => {
+        api(setting.urlConfig.news.getNewsList, params).then((data) => {
           console.log('%c%s', 'color:blue', '=======> 获取新闻列表');
           resolve(data);
         }).catch((err) => {
@@ -21,10 +21,10 @@ const news = {
         });
       });
     },
-    getRecommendNews(state, params) {
+    getNews(state, params) {
       return new Promise((resolve, reject) => {
-        api(setting.urlConfig.getRecommendNews, params).then((data) => {
-          console.log('%c%s', 'color:blue', '=======> 获取推荐新闻');
+        api(setting.urlConfig.news.getNews, params).then((data) => {
+          console.log('%c%s', 'color:blue', '=======> 获取新闻详情');
           resolve(data);
         }).catch((err) => {
           reject(err);
