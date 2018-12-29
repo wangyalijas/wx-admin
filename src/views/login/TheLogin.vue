@@ -7,10 +7,6 @@
         <!--右边输入框-->
         <div class="main">
           <div class="main-inner">
-            <div class="main-inner__logo">
-              <img src="../../assets/images/logo-mini.png"/>
-              <span class="main-inner__logo--title">W.UED</span>
-            </div>
             <div class="main-inner__input">
               <div class="main-inner__input--default">
                 <div :class="{hideTopLabel: !accountFocusFlag}">账号</div>
@@ -106,7 +102,7 @@ export default {
     },
     forgetPassword() {
       // 忘记密码
-      this.$message('请联系管理员');
+      this.$message('请联系管理员获取帮助');
     },
     checkIsEmpty() {
       let isEmpty = true;
@@ -124,15 +120,17 @@ export default {
       const isEmpty = this.checkIsEmpty();
       if (isEmpty) {
         const params = {
-          userNo: this.userAccount.replace(/\s+/g, ''),
+          name: this.userAccount.replace(/\s+/g, ''),
           password: this.userPassword.replace(/\s+/g, ''),
         };
         const result = await this.$store.dispatch('login/postLogin', params);
-        if (Object.prototype.hasOwnProperty.call(result, 'isAdmin')) {
-          this.$store.commit('login/updateUserInfo', result);
-          this.$router.push({
-            name: this.$store.state.login.userInfo.isAdmin ? 'userManagement' : 'articleManagement',
+        if (result.state) {
+          this.$store.commit('getOpenIdUserId', {
+            'X-UserId': result.userId,
+            'X-OpenId': result.openId,
           });
+          this.$store.commit('getUserAccount', params.name);
+          this.handleRouter('resume');
         }
       }
     },
@@ -156,11 +154,11 @@ export default {
         margin: -216px 0 0 -402px;
         overflow: hidden;
         background: #fff;
-        box-shadow: 0 0 10px 0 #f4533121;
+        box-shadow: 0 0 10px 0 #a5c3e7;
         .img {
           float: left;
           width: 300px;
-          height: 433px;
+          height: 432px;
           background-image: url("../../assets/images/logo-bg.png");
           background-repeat: no-repeat;
           background-position: center center;
@@ -171,23 +169,13 @@ export default {
           float: right;
           position: relative;
           .main-inner {
-            width: 206px;
+            width: 260px;
             height: 280px;
             position: absolute;
             left: 50%;
             top: 50%;
-            margin: -140px 0 0 -203px;
+            margin: -140px 0 0 -130px;
             overflow: hidden;
-            @include e(logo){
-              text-align: center;
-              margin-bottom: 10px;
-              @include m(title){
-                display: block;
-                color: #F45331;
-                font-size: 12px;
-                transform: scale(0.7);
-              }
-            }
             /*输入框部分*/
             @include e(input) {
               width: 260px;
@@ -205,7 +193,7 @@ export default {
                 }
                 div {
                   font-size: 12px;
-                  color: #F45331;
+                  color: #4f88ff;
                 }
                 .hideTopLabel {
                   visibility: hidden;
@@ -219,7 +207,8 @@ export default {
                   border-left: 0;
                   border-right: 0;
                   position: relative;
-                  border-bottom: 1px solid #FAC2B6;
+                  border-bottom: 1px solid #77a7df;
+                  outline: none;
                 }
                 @include modifier(btn){
                   top: 28px;
@@ -248,7 +237,7 @@ export default {
               position: relative;
               @include m(forget){
                 float: right;
-                color: #F45331;
+                color: #4f88ff;
                 cursor: pointer;
                 font-size: 12px;
               }
@@ -271,11 +260,8 @@ export default {
               line-height: 40px;
               margin-top: 17px;
               text-align: center;
-              background: #F45331;
+              background: #4f88ff;
               border-radius: 2px;
-              &.active {
-                background: #F45331;
-              }
             }
           }
         }

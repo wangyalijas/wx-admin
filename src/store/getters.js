@@ -31,6 +31,6 @@ export default {
     return constant ? objectToArray(constant.Education) || [] : [];
   },
   handleUserAccount(state) {
-    return state.userInfo.userAccount;
+    return state.userAccount;
   },
 };

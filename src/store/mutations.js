@@ -9,4 +9,7 @@ export default {
   getOpenIdUserId(state, data) {
     state.header = data;
   },
+  getUserAccount(state, data) {
+    state.userAccount = data;
+  },
 };
