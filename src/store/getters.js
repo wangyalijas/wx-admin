@@ -9,6 +9,12 @@ export default {
   handleJobType({ constant }) {
     return constant ? objectToArray(constant.JobType) || [] : [];
   },
+  handleJobTypeObject({ constant }) {
+    return constant ? constant.JobType|| {} : {};
+  },
+  handleJobState({ constant }) {
+  return constant ? objectToArray(constant.JobState) || [] : [];
+  },
   handleWorkPlace({ constant }) {
     return constant ? constant.WorkPlace|| [] : [];
   },

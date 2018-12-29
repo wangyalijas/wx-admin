@@ -5,8 +5,8 @@
         size="small"
         placeholder="请输入内容"
         clearable
-        @keyup.enter.native="handleSearch"
-        v-model="search">
+        @keyup.enter.native="getJobList"
+        v-model="getJobListParams.keyword">
         <i slot="suffix" class="el-input__icon el-icon-search"></i>
       </el-input>
       <el-button
@@ -18,12 +18,28 @@
     </div>
     <!--简历收件箱-->
     <div class="resume-table" v-loading="loading">
-      <el-tabs v-model="activeName" @tab-click="handleTab">
-        <el-tab-pane label="在线中职位" name="first">
-          <ResumeTable @rowOperate="rowOperates" :tableData="onlineData" :tabIndex="activeName"/>
+      <el-tabs v-model="getJobListParams.jobState" @tab-click="tabClick">
+        <el-tab-pane :label="jobState[1].description" :name="String(jobState[1].id)">
+          <JobTable
+          @rowOperate="rowOperates"
+          :total="total"
+          :currentPage="getJobListParams.currentPage"
+          :pageSize="getJobListParams.pageSize"
+          :tableData="onlineData"
+          :tabIndex="String(jobState[1].id)"
+          @handleCurrentChange="handleCurrentChange"
+          @putJobState="putJobState"/>
         </el-tab-pane>
-        <el-tab-pane label="已下线职位" name="second">
-          <ResumeTable @rowOperate="rowOperates" :tableData="offlineData"  :tabIndex="activeName"/>
+        <el-tab-pane :label="jobState[0].description" :name="String(jobState[0].id)">
+          <JobTable
+          @rowOperate="rowOperates"
+          :total="total"
+          :currentPage="getJobListParams.currentPage"
+          :pageSize="getJobListParams.pageSize"
+          :tableData="offlineData"
+          :tabIndex="String(jobState[0].id)"
+          @handleCurrentChange="handleCurrentChange"
+          @putJobState="putJobState"/>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -119,14 +135,19 @@
 <!--JavaScript-->
 <script>
 import { mapGetters } from 'vuex';
-import ResumeTable from '@/components/resume/ResumeTable.vue';
+import JobTable from './JobTable.vue';
 
 export default {
   name: 'job',
   data() {
     return {
       loading: false,
-      activeName: 'first',
+      getJobListParams: {
+        jobState: '1',
+        keyword: '',
+        currentPage: 1,
+        pageSize: 1,
+      },
       search: '',
       onlineData: [],
       offlineData: [],
@@ -172,6 +193,7 @@ export default {
           { required: true, message: '请填写招聘人数', trigger: 'blur' },
         ],
       },
+      total: null,
     };
   },
   computed: {
@@ -179,6 +201,7 @@ export default {
       educationType: 'handleEducationType',
       recruitType: 'handleRecruitType',
       jobType: 'handleJobType',
+      jobState: 'handleJobState',
     }),
   },
   created() {
@@ -192,15 +215,40 @@ export default {
     },
     getJobList() {
       this.loading = true;
-      this.$store.dispatch('job/')
-    },
-    handleTab(tab) {
-      console.log(tab);
+      this.$store.dispatch('job/getJobListForAdmin', this.getJobListParams).then(res => {
+        this.loading = false;
+        if (this.getJobListParams.jobState === '1') {
+          this.onlineData = res.rows;
+          this.total = res.count * this.getJobListParams.pageSize;
+        } else {
+          this.offlineData = res.rows;
+          this.total = res.count * this.getJobListParams.pageSize;
+        }
+      });
     },
     handleSearch() {
     },
+    handleCurrentChange(res) {
+      this.getJobListParams.currentPage = res;
+      this.getJobList();
+    },
+    putJobState(res) {
+      const params = {
+        id: res,
+        jobState: this.jobState.filter(item => String(item.id) !== this.getJobListParams.jobState).shift().id,
+      }
+      this.$store.dispatch('job/putJobState', params).then((res) => {
+        if (res.state) {
+          this.$message.success(res.tip);
+          this.getJobList();
+        }
+      });
+    },
     rowOperates(str) {
       console.log(str);
+    },
+    tabClick() {
+      this.getJobList();
     },
     postJob(formName) {
       this.$refs[formName].validate((valid) => {
@@ -211,6 +259,7 @@ export default {
           if (res.state) {
             this.$message.success(res.tip);
             this.journeyVisible = false;
+            this.getJobList();
           }
         });
       });
@@ -220,7 +269,7 @@ export default {
   },
   filters: {
   },
-  components: { ResumeTable },
+  components: { JobTable },
 };
 </script>
 <!--CSS-PAGE-->

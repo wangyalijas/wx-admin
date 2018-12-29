@@ -39,8 +39,8 @@ export default {
         mockUrl: '',
         method: 'POST',
       },
-      getJobList: {
-        url: 'api/getJobList',
+      getJobListForAdmin: {
+        url: 'api/getJobListForAdmin',
         mockUrl: '',
         method: 'GET',
       },
