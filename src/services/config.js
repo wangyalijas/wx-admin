@@ -35,12 +35,12 @@ export default {
     },
     job: {
       postJob: {
-        url: 'postJob',
+        url: 'api/postJob',
         mockUrl: '',
         method: 'POST',
       },
-      getJobList: {
-        url: 'getJobList',
+      getJobListForAdmin: {
+        url: 'api/getJobListForAdmin',
         mockUrl: '',
         method: 'GET',
       },

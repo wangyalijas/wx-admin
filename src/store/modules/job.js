@@ -21,10 +21,26 @@ const actions = {
       });
     });
   },
-  getJobList({ commit }, payload) {
+  getJobListForAdmin({ commit }, payload) {
     return new Promise(((resolve, reject) => {
-      api(setting.urlConfig.job.getJobList, payload).then(res => {
+      api(setting.urlConfig.job.getJobListForAdmin, payload).then(res => {
         console.log('%c%s', 'color:blue', '=======> 职位列表');
+        resolve(res)
+      }).catch(res => {
+        reject(res)
+      });
+    }))
+  },
+  putJobState({ commit }, payload) {
+    return new Promise(((resolve, reject) => {
+      const urlConfig = {
+        url: `api/putJobState/${payload.id}`,
+        mockUrl: '',
+        method: 'PUT',
+      }
+      delete payload.id;
+      api(urlConfig, payload).then(res => {
+        console.log('%c%s', 'color:blue', '=======> 上下线职位');
         resolve(res)
       }).catch(res => {
         reject(res)
