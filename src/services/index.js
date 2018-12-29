@@ -2,7 +2,7 @@
  * Created by sven on 2017/6/18.
  */
 import { Message } from 'element-ui';
-// import store from '@/store';
+import Store from '@/store/index';
 import setting from '@/services/config';
 
 const mockMode = false; // 是否使用mock数据
@@ -60,7 +60,7 @@ export default (options, data = {}, headers) => {
     params: Object.assign(data),
     // post 请求的数据
     data: Object.assign(data),
-    headers: headers || (options.method === 'get' ? {} : { 'Content-Type': 'application/json;charset=UTF-8' }),
+    headers: Object.assign({ 'Content-Type': 'application/json' }, headers || Store.state.header),
   };
   if (mockMode) {
     httpOptions.url = baseURL + options.mockUrl;

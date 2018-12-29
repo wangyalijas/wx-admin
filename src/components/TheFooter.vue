@@ -30,9 +30,12 @@ export default {
 <style lang="scss" scoped>
   .footer{
     background: #ffffff;
-    text-align: right;
     width: 100%;
     height: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
     @include m(container){
       padding-right: 20px;
       line-height: 40px;

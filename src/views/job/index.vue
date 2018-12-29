@@ -9,8 +9,11 @@
         v-model="search">
         <i slot="suffix" class="el-input__icon el-icon-search"></i>
       </el-input>
-      <el-button icon="el-icon-plus"
-                 round size="small">发布新职位
+      <el-button
+      class="small-button"
+      icon="el-icon-plus"
+      round size="small"
+      @click="journeyVisible = true">发布新职位
       </el-button>
     </div>
     <!--简历收件箱-->
@@ -26,6 +29,87 @@
     </div>
     <!--详细信息-->
     <div class="resume-detail animated fadeInDown"></div>
+    <!--新增职位-->
+    <div class="school-journey">
+      <el-dialog
+        width="30%"
+        :visible.sync="journeyVisible">
+        <div class="school-journey-form">
+          <el-form ref="journeyForm"
+                   :model="journeyForm"
+                   :rules='rules'
+                   label-width="80px"
+                   size="small">
+            <el-form-item label="职位名称" prop="name">
+              <el-input v-model="journeyForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="工作地点" prop="place">
+              <el-input v-model="journeyForm.place"></el-input>
+            </el-form-item>
+            <el-form-item label="工作年限" prop="workLife">
+              <el-input v-model="journeyForm.workLife"></el-input>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="宣讲时间" prop="aboutTime">
+                  <el-date-picker type="date"
+                                  placeholder="宣讲时间"
+                                  style="width: 100%"
+                                  value-format="yyyy/MM/dd"
+                                  v-model="journeyForm.aboutTime">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="简历截止" prop="resumeStop">
+                  <el-date-picker type="date"
+                                  placeholder="简历截止"
+                                  style="width: 100%"
+                                  value-format="yyyy/MM/dd"
+                                  v-model="journeyForm.resumeStop">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="线上笔试" prop="writtenTime">
+                  <el-date-picker type="date"
+                                  placeholder="线上笔试"
+                                  style="width: 100%"
+                                  value-format="yyyy/MM/dd"
+                                  v-model="journeyForm.writtenTime">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="面试时间" prop="interviewTime">
+                  <el-date-picker type="date"
+                                  placeholder="面试时间"
+                                  style="width: 100%"
+                                  value-format="yyyy/MM/dd"
+                                  v-model="journeyForm.interviewTime">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-form-item label="宣讲内容" prop="preachContent">
+              <el-input type="textarea"
+                        v-model="journeyForm.preachContent"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="warning" @click="releaseJourney('journeyForm')"
+                     icon="iconfont icon-faso" size="small">发布
+          </el-button>
+          <el-button type="danger"
+                     @click="journeyVisible = false"
+                     size="small">取消
+          </el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <!--JavaScript-->
@@ -41,6 +125,48 @@ export default {
       search: '',
       onlineData: [],
       offlineData: [],
+      journeyVisible: true,
+      journeyForm: {
+        name: '',
+        place: '',
+        workLife: '',
+        education: '',
+        jobType: '',
+        recruitType: '',
+        recruitCount: '',
+        duty: '',
+        requirement: '',
+        attachment: '',
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入职位名称', trigger: 'blur' },
+        ],
+        place: [
+          { required: true, message: '请输入工作地点', trigger: 'blur' },
+        ],
+        workLife: [
+          { required: true, message: '请选择工作经验要求', trigger: 'blur' },
+        ],
+        education: [
+          { required: true, message: '请选择学历要求', trigger: 'blur' },
+        ],
+        jobType: [
+          { required: true, message: '请选择简历截止时间', trigger: 'blur' },
+        ],
+        recruitType: [
+          { required: true, message: '请选择职位性质', trigger: 'blur' },
+        ],
+        recruitCount: [
+          { required: true, message: '请填写招聘人数', trigger: 'blur' },
+        ],
+        duty: [
+          { required: true, message: '请填写职责', trigger: 'blur' },
+        ],
+        requirement: [
+          { required: true, message: '请填写招聘人数', trigger: 'blur' },
+        ],
+      },
     };
   },
   created() {
@@ -102,6 +228,9 @@ export default {
   .resume{
     position: relative;
     height: 100%;
+    .small-button {
+      padding: 0px 15px;
+    }
     .resume-search{
       position: absolute;
       display: flex;
@@ -146,6 +275,22 @@ export default {
       background: #fff;
       z-index: 10;
       display: none;
+    }
+    .school-journey{
+      .school-journey-form{
+      }
+      /deep/ .dialog-footer{
+        i {
+          font-size: 14px;
+          color: #fff;
+          vertical-align: baseline;
+          display: inline-block;
+        }
+        .el-button--warning{
+          border-color: #57C3EB;
+          background: #57C3EB;
+        }
+      }
     }
   }
 </style>
